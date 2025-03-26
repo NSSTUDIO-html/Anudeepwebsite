@@ -27,13 +27,25 @@
     
   }
   .image-container {
-    margin-bottom: 20px; /* Add space between images and input */
+    margin-bottom: 20px;
+    position: relative; /* Needed for absolute positioning of remove button */
   }
   .image-container img {
     height: 300px;
     width: 100%;
     object-fit: contain;
     border-radius: 5%;
+  }
+  .remove-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
   }
   </style>
 </head>
@@ -58,10 +70,12 @@
     <input type="file" id="imageInput" accept="image/*">
     <button onclick="addImage()">Add Image</button>
   </div>
+  <div id="imageDisplayArea"></div>
   <script>
     function addImage() {
       const input = document.getElementById('imageInput');
       const file = input.files[0];
+      const displayArea = document.getElementById('imageDisplayArea');
 
       if (file) {
         const reader = new FileReader();
@@ -77,10 +91,18 @@
           captionInput.type = 'text';
           captionInput.placeholder = 'Enter caption';
 
+          const removeButton = document.createElement('button');
+          removeButton.textContent = 'Remove';
+          removeButton.classList.add('remove-button');
+          removeButton.onclick = function() {
+            displayArea.removeChild(imageContainer);
+          };
+
           imageContainer.appendChild(img);
           imageContainer.appendChild(captionInput);
+          imageContainer.appendChild(removeButton);
 
-          document.body.insertBefore(imageContainer, document.querySelector('.image-adder'));
+          displayArea.appendChild(imageContainer);
         };
 
         reader.readAsDataURL(file);
