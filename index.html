@@ -26,13 +26,22 @@
   h3{
     
   }
+  .image-container {
+    margin-bottom: 20px; /* Add space between images and input */
+  }
+  .image-container img {
+    height: 300px;
+    width: 100%;
+    object-fit: contain;
+    border-radius: 5%;
+  }
   </style>
 </head>
 <body>
   <h1>
     ANUDEEP PRINCE PAMULA
   </h1>
-  <img src="/storage/emulated/0/Pictures/Instagram/IMG_20250326_154148_921.jpg">
+  <img src="IMG_20250326_154148_921.jpg">
 
   <ul>
     <li>POLITICIAN</li>
@@ -58,13 +67,20 @@
         const reader = new FileReader();
 
         reader.onload = function(e) {
+          const imageContainer = document.createElement('div');
+          imageContainer.classList.add('image-container');
+
           const img = document.createElement('img');
           img.src = e.target.result;
-          img.style.height = '300px';
-          img.style.width = '100%';
-          img.style.objectFit = 'contain';
-          img.style.borderRadius = '5%';
-          document.body.insertBefore(img, document.querySelector('.image-adder')); // Insert before the adder div.
+
+          const captionInput = document.createElement('input');
+          captionInput.type = 'text';
+          captionInput.placeholder = 'Enter caption';
+
+          imageContainer.appendChild(img);
+          imageContainer.appendChild(captionInput);
+
+          document.body.insertBefore(imageContainer, document.querySelector('.image-adder'));
         };
 
         reader.readAsDataURL(file);
